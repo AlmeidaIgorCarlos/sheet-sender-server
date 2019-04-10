@@ -4,10 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "startdev": "nodemon app.js",
     "start": "node app.js",
     "test": "mocha tests/unitTests.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "consign": "^0.1.6",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.2",
+    "nodemon": "^1.18.11"
+  }
 }
