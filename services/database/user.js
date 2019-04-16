@@ -8,7 +8,7 @@ module.exports = {
                 reject(new Error('The parameter to the insertUser function must be an JSON object'))
             else {
 
-                const options = {
+                const requestData = {
                     method: 'POST',
                     uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}`,
                     body: user,
@@ -16,13 +16,13 @@ module.exports = {
                 }
 
                 try {
-                    request.post(options, (error, res) => {
+                    request.post(requestData, (error, res) => {
                         if (error)
                             reject(new Error(`The database operation didn't work: ${error}`))
                         else if (res.statusCode !== 201)
-                            reject(new Error(`The database operation didn't work - status code: ${res.statusCode}`))
+                            reject(res.statusCode)
                         else
-                            resolve(res.body.ok)
+                            resolve(res.statusCode)
                     })
                 } catch (error) {
                     reject(new Error(`The database operation didn't work: ${error}`))
@@ -35,7 +35,7 @@ module.exports = {
             if (typeof user !== 'object')
                 reject(new Error('The parameter for the getUser function must be an object'))
             else {
-                const options = {
+                const requestData = {
                     method: 'POST',
                     uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/_find`,
                     body: { selector: user },
@@ -43,11 +43,11 @@ module.exports = {
                 }
 
                 try {
-                    request.post(options, (error, res) => {
+                    request.post(requestData, (error, res) => {
                         if (error)
                             reject(error)
                         else if (res.statusCode !== 200)
-                            reject(new Error(`Error getting the user - statusCode: ${res.statusCode}`))
+                            reject(res.statusCode)
                         else {
                             let { body } = res
                             body.statusCode = res.statusCode
@@ -59,5 +59,32 @@ module.exports = {
                 }
             }
         })
+    },
+    updateUser(user) {
+        return new Promise((resolve, reject) => {
+            if (typeof user !== 'object')
+                reject(new Error('The parameter for the updateUser function must be an object'))
+            else if (user._rev === undefined || user._rev === '')
+                reject(new Error('The user parameter must have a valid _rev attribute'))
+            else {
+                const requestData = {
+                    method: 'PUT',
+                    uri: `${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/${user._rev}`,
+                    body: user,
+                    json: true
+                }
+
+                request.post(requestData, (error, res) => {
+                    if (error)
+                        reject(error)
+                    else if (res.statusCode !== 201)
+                        reject(res.statusCode)
+                    else {
+                        resolve(res.statusCode)
+                    }
+                })
+            }
+        })
+
     }
 }

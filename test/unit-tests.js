@@ -70,52 +70,65 @@ describe('auth testing', () => {
 })
 
 describe('couch-db testing', () => {
-    it('insert user | correct parameters | must return true because all parameters are correct', async () => {
-        const user = {
-            name: "Igor Almeida",
-            email: "teste@gmail.com"
-        }
 
-        const userInsertResult = await userDatabase.insertUser(user)
-        assert(userInsertResult === true)
-    }).timeout(0)
-
-    it('insert user | incorrect parameters | must return an error because the parameter is wrong', async () => {
+    it('insertUser | Incorrect parameters | Must return an error because the parameter is wrong', async () => {
         try {
             const user = 'No object'
-
-            /*const userInsertResult = */await userDatabase.insertUser(user)
-            //assert(userInsertResult === true)
+            await userDatabase.insertUser(user)
         } catch (error) {
             assert(error.message === 'The parameter to the insertUser function must be an JSON object')
         }
     })
 
-    it('getUser | correct parameter | must return a valid document because the parameter is correct', async () => {
-        const user = {
-            name: "Igor Almeida",
-            email: "teste@gmail.com"
+    it('insertUser | No parameters | Must return an error because no paramater is provided', async () => {
+        try {
+            await userDatabase.insertUser()
+        } catch (error) {
+            assert(error.message === 'The parameter to the insertUser function must be an JSON object')
         }
-
-        const dbResult = await userDatabase.getUser(user)
-        assert(typeof dbResult === 'object')
     })
 
-    it('getUser | correct parameter | must return a valid document because the parameter is correct', async () => {
-        const user = {
-            name: "Igor Almeida",
-            email: "teste@gmail.com"
-        }
-
-        const { statusCode } = await userDatabase.getUser(user)
-        assert(statusCode === 200)
-    })
-
-    it('getUser | incorrect parameter | must return an erro because we are informing an string', async () => {
+    it('getUser | Incorrect parameter | Must return an error because we are informing an string', async () => {
         try {
             await userDatabase.getUser('igor')
         } catch (error) {
             assert(error.message === 'The parameter for the getUser function must be an object')
+        }
+    })
+    
+    it('getUser | Incorrect parameter | Must return an error because no parameter is provided', async () => {
+        try {
+            await userDatabase.getUser()
+        } catch (error) {
+            assert(error.message === 'The parameter for the getUser function must be an object')
+        }
+    })
+
+    it('updateUser | Incorrect parameter type | Must return an error because the parameter type is incorrect', async ()=>{
+        try {
+            const user = ''
+            await userDatabase.updateUser(user)
+        } catch (error) {
+            assert(error.message === 'The parameter for the updateUser function must be an object')
+        }
+    })
+
+    it('updateUser | Incorrect parameter type | Must return an error because the parameter does not have the _rev attribute', async ()=>{
+        try {
+            const user = {
+                name: 'testuser'
+            }
+            await userDatabase.updateUser(user)
+        } catch (error) {
+            assert(error.message === 'The user parameter must have a valid _rev attribute')
+        }
+    })
+
+    it('updateUser | Incorrect parameter | Must return an error because no parameter is provided', async ()=>{
+        try {
+            await userDatabase.updateUser()
+        } catch (error) {
+            assert(error.message === 'The parameter for the updateUser function must be an object')
         }
     })
 })
