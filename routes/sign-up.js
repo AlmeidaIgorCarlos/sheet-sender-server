@@ -2,11 +2,15 @@ const express = require('express')
 const route = express.Router()
 const userDatabase = require('./../services/database/user')
 
-function getUser(req) {
+function getUser(req, approach) {
     return new Promise(async (resolve, reject) => {
         try {
             const { body } = req
-            const user = await userDatabase.getUser(body)
+            let user
+            if (approach === true)
+                user = await userDatabase.getUser(body)
+            else if (approach === false)
+                user = await userDatabase.getUserbyId(body._id)
 
             resolve(user)
         } catch (error) {
@@ -15,8 +19,8 @@ function getUser(req) {
     })
 }
 
-function isUserSaved(user){
-    if(user.docs.length === 0)
+function isUserSaved(user) {
+    if (user.docs.length === 0)
         return false
     else
         return true
@@ -25,7 +29,7 @@ function isUserSaved(user){
 module.exports = function (app) {
     route.post('/sign-up', async (req, res, next) => {
         try {
-            const user = await getUser(req)
+            const user = await getUser(req, true)
             if (!isUserSaved(user)) {
                 if (await userDatabase.insertUser(req.body) === 201)
                     res.writeHead(200)
@@ -34,7 +38,7 @@ module.exports = function (app) {
                 res.writeHead(406)
 
         } catch (error) {
-            res.writeHead(error)
+            res.writeHead(500)
         } finally {
             res.end()
             next()
@@ -43,17 +47,12 @@ module.exports = function (app) {
 
     route.put('/sign-up', async (req, res, next) => {
         try {
-            const user = await getUser(req)
-
-            if(isUserSaved)
-                userDatabase.updateUser()
-            else{
-
-            }
-
+            await getUser(req, false)
+            await userDatabase.updateUser(req.body)
         } catch (error) {
-
+            res.writeHead(500)
         } finally {
+            res.end()
             next()
         }
     })

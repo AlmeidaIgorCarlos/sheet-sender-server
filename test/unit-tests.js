@@ -104,6 +104,14 @@ describe('couch-db testing', () => {
         }
     })
 
+    it('getUserById | Incorrect parameter | Must return an error because the parameter type is not string', async () => {
+        try {
+            await userDatabase.getUserbyId(1)
+        } catch (error) {
+            assert(error.message === 'The parameter for the getUserById function must be an string')
+        }
+    })
+
     it('updateUser | Incorrect parameter type | Must return an error because the parameter type is incorrect', async ()=>{
         try {
             const user = ''
@@ -121,6 +129,18 @@ describe('couch-db testing', () => {
             await userDatabase.updateUser(user)
         } catch (error) {
             assert(error.message === 'The user parameter must have a valid _rev attribute')
+        }
+    })
+
+    it('updateUser | Incorrect parameter type | Must return an error because the parameter does not have the _id attribute', async ()=>{
+        try {
+            const user = {
+                name: 'testuser',
+                _rev: 'non-null'
+            }
+            await userDatabase.updateUser(user)
+        } catch (error) {
+            assert(error.message === 'The user parameter must have a valid _id attribute')
         }
     })
 

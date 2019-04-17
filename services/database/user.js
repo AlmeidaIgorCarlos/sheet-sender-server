@@ -43,7 +43,32 @@ module.exports = {
                 }
 
                 try {
-                    request.post(requestData, (error, res) => {
+                    request(requestData, (error, res) => {
+                        if (error)
+                            reject(error)
+                        else if (res.statusCode !== 200)
+                            reject(res.statusCode)
+                        else {
+                            let { body } = res
+                            body.statusCode = res.statusCode
+                            resolve(body)
+                        }
+                    })
+                } catch (error) {
+                    reject(error)
+                }
+            }
+        })
+    },
+    getUserbyId(_id) {
+        return new Promise((resolve, reject) => {
+            if (typeof _id !== 'string')
+                reject(new Error('The parameter for the getUserById function must be an string'))
+            else {
+                const url = `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/${_id}`
+
+                try {
+                    request(url, (error, res) => {
                         if (error)
                             reject(error)
                         else if (res.statusCode !== 200)
@@ -64,17 +89,19 @@ module.exports = {
         return new Promise((resolve, reject) => {
             if (typeof user !== 'object')
                 reject(new Error('The parameter for the updateUser function must be an object'))
-            else if (user._rev === undefined || user._rev === '')
+            else if (user._rev === undefined)
                 reject(new Error('The user parameter must have a valid _rev attribute'))
+            else if (user._id === undefined)
+                reject(new Error('The user parameter must have a valid _id attribute'))
             else {
                 const requestData = {
                     method: 'PUT',
-                    uri: `${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/${user._rev}`,
+                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/${user._id}`,
                     body: user,
                     json: true
                 }
 
-                request.post(requestData, (error, res) => {
+                request(requestData, (error, res) => {
                     if (error)
                         reject(error)
                     else if (res.statusCode !== 201)
