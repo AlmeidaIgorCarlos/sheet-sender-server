@@ -10,19 +10,14 @@ module.exports = {
                 reject(new Error('The parameter for the insertWorkItem must have an user inner object'))
             else {
                 workItem.entity = 'workitem'
-
-                const date = new Date()
-                workItem.day = date.getDate()
-                workItem.month = date.getMonth() + 1
-                workItem.year = date.getFullYear()
+                workItem.date = new Date()
 
                 const requestData = {
                     method: 'POST',
-                    uri: `${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}`,
+                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}`,
                     body: workItem,
                     json: true
                 }
-
                 request(requestData, (error, res) => {
                     if (error) reject(error)
                     else {
@@ -33,18 +28,19 @@ module.exports = {
             }
         })
     },
-    getWorkItem(user) {
+    getWorkItem(_user) {
         return new Promise((resolve, reject) => {
-            if (typeof user !== 'object')
+            if (typeof _user !== 'object')
                 reject(new Error('The parameter for the getWorkItem must be an object'))
             else {
+
                 const requestData = {
                     method: 'POST',
-                    uri: `${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/_find`,
+                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/_find`,
                     body: {
                         selector: {
                             entity: 'workitem',
-                            user: user
+                            user: _user
                         }
                     },
                     json: true
@@ -57,7 +53,7 @@ module.exports = {
                         if (res.statusCode != 200)
                             reject(res.statusCode)
                         else {
-                            resolve(res.statusCode)
+                            resolve(body)
                         }
                     }
                 })
