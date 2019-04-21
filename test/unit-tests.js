@@ -1,8 +1,9 @@
 const assert = require('chai').assert
 const auth = require('./../services/auth')
 const userDatabase = require('./../services/database/user')
+const workItemDatabase = require('./../services/database/work-item')
 
-describe('auth testing', () => {
+describe('Service | auth', () => {
 
     it('authenticate method | auth property | giving all the parameters correctly, the auth must be true', async () => {
         const authentication = await auth.authenticate({ id: 1 })
@@ -69,7 +70,7 @@ describe('auth testing', () => {
     })
 })
 
-describe('couch-db testing', () => {
+describe('Service | user', () => {
 
     it('insertUser | Incorrect parameters | Must return an error because the parameter is wrong', async () => {
         try {
@@ -95,7 +96,7 @@ describe('couch-db testing', () => {
             assert(error.message === 'The parameter for the getUser function must be an object')
         }
     })
-    
+
     it('getUser | Incorrect parameter | Must return an error because no parameter is provided', async () => {
         try {
             await userDatabase.getUser()
@@ -112,7 +113,7 @@ describe('couch-db testing', () => {
         }
     })
 
-    it('updateUser | Incorrect parameter type | Must return an error because the parameter type is incorrect', async ()=>{
+    it('updateUser | Incorrect parameter type | Must return an error because the parameter type is incorrect', async () => {
         try {
             const user = ''
             await userDatabase.updateUser(user)
@@ -121,7 +122,7 @@ describe('couch-db testing', () => {
         }
     })
 
-    it('updateUser | Incorrect parameter type | Must return an error because the parameter does not have the _rev attribute', async ()=>{
+    it('updateUser | Incorrect parameter type | Must return an error because the parameter does not have the _rev attribute', async () => {
         try {
             const user = {
                 name: 'testuser'
@@ -132,7 +133,7 @@ describe('couch-db testing', () => {
         }
     })
 
-    it('updateUser | Incorrect parameter type | Must return an error because the parameter does not have the _id attribute', async ()=>{
+    it('updateUser | Incorrect parameter type | Must return an error because the parameter does not have the _id attribute', async () => {
         try {
             const user = {
                 name: 'testuser',
@@ -144,11 +145,87 @@ describe('couch-db testing', () => {
         }
     })
 
-    it('updateUser | Incorrect parameter | Must return an error because no parameter is provided', async ()=>{
+    it('updateUser | Incorrect parameter | Must return an error because no parameter is provided', async () => {
         try {
             await userDatabase.updateUser()
         } catch (error) {
             assert(error.message === 'The parameter for the updateUser function must be an object')
         }
     })
+})
+
+describe('Service | work-item', () => {
+    it('insertWorkItem | Must return an error, since the parameter is wrong', async () => {
+        try {
+            await workItemDatabase.insertWorkItem()
+        } catch (error) {
+            assert(error.message === 'The parameter for the insertWorkItem must be an object')
+        }
+    })
+
+    it('insertWorkItem | Must return an error, because the object parameter must have an user inner object', async () => {
+        try {
+            const workItem = {
+                name: 'non-null'
+            }
+            await workItemDatabase.insertWorkItem(workItem)
+        } catch (error) {
+            assert(error.message === 'The parameter for the insertWorkItem must have an user inner object')
+        }
+    })
+
+    it('getWorkItem | Must return an error, since the parameter is wrong', async () => {
+        try {
+            await workItemDatabase.getWorkItem()
+        } catch (error) {
+            assert(error.message === 'The parameter for the getWorkItem must be an object')
+        }
+    })
+
+    it('updateWorkItem | must return an error, since the parameter type is wrog', async () => {
+        try {
+            await workItemDatabase.updateWorkItem()
+        } catch (error) {
+            assert(error.message === 'The parameter for the updateWorkItem must be an object')
+        }
+    })
+
+    it('updateWorkItem | must return an error, because the function updateWorkItem has to have a user inner object', async () => {
+        try {
+            const workItem = {
+                _id: 'non-null'
+            }
+            await workItemDatabase.updateWorkItem(workItem)
+        } catch (error) {
+            assert(error.message === 'The parameter for the insertWorkItem must have an user inner object')
+        }
+    })
+
+    it('updateWorkItem | must return an error, since the parameter has no _id inner attribute', async () => {
+        try {
+            const workItem = {
+                user: {
+
+                }
+            }
+            await workItemDatabase.updateWorkItem(workItem)
+        } catch (error) {
+            assert(error.message === 'The parameter for the updateWorkItem must have an _id inner attribute')
+        }
+    })
+
+    it('updateWorkItem | must return an error, since the parameter has no _rev inner attribute', async () => {
+        try {
+            const workItem = {
+                _id: 'non-null',
+                user: {
+                    
+                }
+            }
+            await workItemDatabase.updateWorkItem(workItem)
+        } catch (error) {
+            assert(error.message === 'The parameter for the updateWorkItem must have an _rev inner attribute')
+        }
+    })
+
 })

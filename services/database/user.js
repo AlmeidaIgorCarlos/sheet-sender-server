@@ -7,6 +7,7 @@ module.exports = {
             if (typeof user !== 'object')
                 reject(new Error('The parameter to the insertUser function must be an JSON object'))
             else {
+                user.entity = 'user'
 
                 const requestData = {
                     method: 'POST',
@@ -35,6 +36,8 @@ module.exports = {
             if (typeof user !== 'object')
                 reject(new Error('The parameter for the getUser function must be an object'))
             else {
+                user.entity = 'user'
+                
                 const requestData = {
                     method: 'POST',
                     uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/_find`,
