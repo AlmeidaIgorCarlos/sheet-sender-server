@@ -1,13 +1,14 @@
-# SheetSender
+# sheet-sender-server
 Software para ajudar colaboradores a performar durante seu horário de expediente
 
 **Descrição e Objetivo do projeto:**<br>
 Constantemente queremos performar mais durante nosso expediente no dia-a-dia de trabalho. Porém, quando chegamos ao final do dia, temos a sensação de que já está na hora de encerrarmos e ainda temos um enorme backlog de tarefas. Este projeto tem o objetivo de informar o colaborador do tempo gasto em suas atividades de uma forma gráfica e simples de entender onde ele precisa aumentar ou reduzir o esforço durante sua jornada de trabalho.
 
+**OBS:** Este projeto somente consiste na API back-end, o projeto client-side em React está em outro repositório
+
 **Tecnologias Utilizadas:**
-* Linguagem: Javascript
-* Banco de Dados: À definir
-* Front-End: HTML5 | CSS3 | Javascript 
+* Linguagem: Javascript | node.js
+* Banco de Dados: CouchDB | IBM Cloudant
 * Versionamento: GIT | GITHUB
 
 **Escopo & Requisitos funcionais:**
@@ -23,27 +24,8 @@ Constantemente queremos performar mais durante nosso expediente no dia-a-dia de 
 10. O usuário poderá pesquisar por relatório de expedientes já realizados;
 
 **Arquitetura da aplicação:**
-<img src="https://github.com/AlmeidaIgorCarlos/SheetSender/blob/master/docs/SheetSender%20-%20Arquitetura.PNG" alt="Imagem da arquitetura da aplicação" />
+<img src="https://github.com/AlmeidaIgorCarlos/sheet-sender-server/blob/master/docs/SheetSender%20-%20Arquitetura.JPG" alt="Imagem da arquitetura da aplicação" />
 <br>
 
 **Workflow do Usuário:**
 <img src="https://github.com/AlmeidaIgorCarlos/SheetSender/blob/master/docs/Workflow%20do%20Usu%C3%A1rio.png" />
-<br>
-
-<h2>Wireframe da Interface</h2>
-  
-**Login:**
-<img src="https://github.com/AlmeidaIgorCarlos/SheetSender/blob/master/docs/Login.png" />
-<br> 
-
-**Main:**
-<img src="https://github.com/AlmeidaIgorCarlos/SheetSender/blob/master/docs/Main.png" />
-<br>
-
-**Signup and Update:**
-<img src="https://github.com/AlmeidaIgorCarlos/SheetSender/blob/master/docs/Signup%20and%20Update.png" />
-<br>
-
-**Report:**
-<img src="https://github.com/AlmeidaIgorCarlos/SheetSender/blob/master/docs/Report.png" />
-<br>
