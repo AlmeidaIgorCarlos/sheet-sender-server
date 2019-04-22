@@ -28,5 +28,8 @@
     "@babel/preset-env": "^7.4.3",
     "chai": "^4.2.0",
     "mocha": "^6.1.2"
+  },
+  "engines":{
+    "node": "10.15.0"
   }
 }
