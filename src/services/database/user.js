@@ -52,6 +52,7 @@ module.exports = {
                         else if (res.statusCode !== 200)
                             reject(res.statusCode)
                         else {
+                            //refactor
                             let { body } = res
                             body.statusCode = res.statusCode
                             resolve(body)
