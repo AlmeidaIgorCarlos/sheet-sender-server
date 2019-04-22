@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha test/unit-tests.js"
+    "build": "npx babel src --out-dir build --presets=@babel/env --plugins @babel/plugin-transform-runtime",
+    "start": "node build/app.js",
+    "start-dev": "nodemon src/app.js",
+    "test": "mocha src/test/unit-tests.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
+    "@babel/runtime": "^7.4.3",
     "body-parser": "^1.18.3",
     "consign": "^0.1.6",
     "dotenv-safe": "^6.1.0",
@@ -20,6 +22,10 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-transform-runtime": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
     "chai": "^4.2.0",
     "mocha": "^6.1.2"
   }
