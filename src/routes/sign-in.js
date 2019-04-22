@@ -17,8 +17,8 @@ module.exports = function(app){
         } catch (error) {
             res.writeHead(500)
         } finally{
-            next()
             res.end()
+            next()
         }
     })
 
