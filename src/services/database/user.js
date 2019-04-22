@@ -11,7 +11,7 @@ module.exports = {
 
                 const requestData = {
                     method: 'POST',
-                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}`,
+                    uri: `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}`,
                     body: user,
                     json: true // Automatically stringifies the body to JSON
                 }
@@ -40,7 +40,7 @@ module.exports = {
                 
                 const requestData = {
                     method: 'POST',
-                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/_find`,
+                    uri: `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}/_find`,
                     body: { selector: user },
                     json: true // Automatically stringifies the body to JSON
                 }
@@ -68,7 +68,7 @@ module.exports = {
             if (typeof _id !== 'string')
                 reject(new Error('The parameter for the getUserById function must be an string'))
             else {
-                const url = `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/${_id}`
+                const url = `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}/${_id}`
 
                 try {
                     request(url, (error, res) => {
@@ -99,7 +99,7 @@ module.exports = {
             else {
                 const requestData = {
                     method: 'PUT',
-                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/${user._id}`,
+                    uri: `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}/${user._id}`,
                     body: user,
                     json: true
                 }

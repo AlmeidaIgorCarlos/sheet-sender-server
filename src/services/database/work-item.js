@@ -14,7 +14,7 @@ module.exports = {
 
                 const requestData = {
                     method: 'POST',
-                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}`,
+                    uri: `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}`,
                     body: workItem,
                     json: true
                 }
@@ -36,7 +36,7 @@ module.exports = {
 
                 const requestData = {
                     method: 'POST',
-                    uri: `http://${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/_find`,
+                    uri: `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}/_find`,
                     body: {
                         selector: {
                             entity: 'workitem',
@@ -73,7 +73,7 @@ module.exports = {
             else {
                 const requestData = {
                     method: 'PUT',
-                    uri: `${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}/${process.env.DATABASE}/${workItem._id}`,
+                    uri: `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}/${workItem._id}`,
                     body: workItem,
                     json: true
                 }
