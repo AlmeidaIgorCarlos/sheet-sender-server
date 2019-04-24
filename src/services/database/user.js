@@ -47,15 +47,13 @@ module.exports = {
 
                 try {
                     request(requestData, (error, res) => {
-                        if (error)
-                            reject(error)
-                        else if (res.statusCode !== 200)
-                            reject(res.statusCode)
-                        else {
-                            //refactor
-                            let { body } = res
-                            body.statusCode = res.statusCode
-                            resolve(body)
+                        if (error) reject(error)
+                        else if (res.statusCode !== 200) reject(res.statusCode)
+                        else if(res.body.docs.length < 1) reject(new Error('No user found'))
+                        else {                            
+                            let user = res.body.docs[0]
+                            user.statusCode = res.statusCode
+                            resolve(user)
                         }
                     })
                 } catch (error) {
