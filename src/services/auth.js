@@ -31,10 +31,8 @@ module.exports = {
                 reject(new Error("The token's format is incorrect"))
             
             JWT.verify(authentication.token, process.env.SECRET, (err) => {
-                if (err)
-                    reject(new Error('Ocurred an error during token verification'))
-                else
-                    resolve(true)
+                if (err) reject(new Error('Ocurred an error during token verification'))
+                else resolve(true)
             })
         })
     }

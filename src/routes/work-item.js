@@ -3,42 +3,40 @@ const router = express.Router()
 const workItemDB = require('./../services/database/work-item')
 const authenticator = require('./../services/auth')
 
-module.exports = function(app){
-    router.get('/work-item', async (req, res)=>{
+module.exports = function (app) {
+    router.get('/work-item', async (req, res) => {
         try {
-            const permission = await authenticator.authorize(req.body.authentication)
-            if(permission){
-                const response = await workItemDB.getWorkItem(req.body)
-                res.send(response)
-            }else{
-                throw 501
-            }
+            const user = req.body
+            const permission = await authenticator.authorize(user.authentication)
+
+            if (permission) res.send(await workItemDB.getWorkItem(user))
+            else throw 501
+            
         } catch (error) {
-            console.log(error)
             res.writeHead(500)
-        }finally{
+        } finally {
             res.end()
         }
     })
 
-    router.post('/work-item', async (req, res)=>{
+    router.post('/work-item', async (req, res) => {
         try {
             const statusCode = await workItemDB.insertWorkItem(req.body)
             res.writeHead(statusCode)
         } catch (error) {
             res.writeHead(500)
-        }finally{
+        } finally {
             res.end()
         }
     })
 
-    router.put('/work-item', async (req, res)=>{
+    router.put('/work-item', async (req, res) => {
         try {
             const statusCode = await workItemDB.updateWorkItem(req.body)
             res.writeHead(statusCode)
         } catch (error) {
             res.writeHead(error)
-        }finally{
+        } finally {
             res.end()
         }
     })

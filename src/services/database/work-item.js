@@ -47,15 +47,9 @@ module.exports = {
                 }
 
                 request(requestData, (error, res, body) => {
-                    if (error)
-                        reject(error)
-                    else {
-                        if (res.statusCode != 200)
-                            reject(res.statusCode)
-                        else {
-                            resolve(body)
-                        }
-                    }
+                    if (error) reject(error)
+                    else if (res.statusCode != 200) reject(res.statusCode)
+                    else resolve(body.docs)
                 })
             }
         })
