@@ -17,7 +17,7 @@ module.exports = {
 
                 request.post(requestData, (error, res) => {
                     if (error || res.statusCode !== 201) reject(new Error(`The database operation didn't work`))
-                    else resolve(res.statusCode)
+                    else resolve(true)
                 })
             } catch (error) {
                 reject(new Error(`Occurred an error during the execution of insertUser function`))
@@ -77,8 +77,7 @@ module.exports = {
 
                 request(requestData, (error, res) => {
                     if (error || res.statusCode !== 201) reject(new Error(`The database operation didn't work`))
-                    else resolve(res.statusCode)
-
+                    else resolve(true)
                 })
 
             } catch (error) {
