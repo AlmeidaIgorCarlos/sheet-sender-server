@@ -3,18 +3,22 @@ const router = express.Router()
 const userDatabase = require('./../services/database/user')
 const authenticator = require('./../services/auth')
 
-module.exports = function(app){
-    router.post('/sign-in', async (req, res, next)=>{
+module.exports = function (app) {
+    router.post('/sign-in', async (req, res, next) => {
         try {
             let user = req.body
-            
-            user = await userDatabase.getUser(user)
-            user.authentication = await authenticator.authenticate(user)
+            if (user.username === undefined || user.password === undefined)
+                throw new Error('The user must provide valid username and password to sign in')
 
-            res.send(user)
+            user = await userDatabase.getUser(user)
+            
+            if(user !== undefined) user.authentication = await authenticator.authenticate(user)
+            else user = {reason: 'No user with these credentials found'}
+
+            res.status(200).send(user)
         } catch (error) {
-            res.writeHead(500)
-        } finally{
+            res.status(500).send({reason: error.message})
+        } finally {
             res.end()
             next()
         }
