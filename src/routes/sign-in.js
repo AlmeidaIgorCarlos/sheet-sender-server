@@ -13,11 +13,11 @@ module.exports = function (app) {
             user = await userDatabase.getUser(user)
             
             if(user !== undefined) user.authentication = await authenticator.authenticate(user)
-            else user = {reason: 'No user with these credentials found'}
+            else user = {message: 'No user with these credentials found'}
 
             res.status(200).send(user)
         } catch (error) {
-            res.status(500).send({reason: error.message})
+            res.status(500).send({message: error.message})
         } finally {
             res.end()
             next()
