@@ -20,7 +20,7 @@ module.exports = {
                     json: true
                 }
                 request(requestData, (error, res) => {
-                    if (error | s.statusCode != 201) reject(new Error('The database operation did not work'))
+                    if (error | res.statusCode != 201) reject(new Error('The database operation did not work'))
                     else resolve(true)
                 })
 
