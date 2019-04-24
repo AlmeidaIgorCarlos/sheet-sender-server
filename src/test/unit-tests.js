@@ -74,8 +74,8 @@ describe('Service | user', () => {
 
     it('insertUser | Incorrect parameters | Must return an error because the parameter is wrong', async () => {
         try {
-            const user = 'No object'
-            await userDatabase.insertUser(user)
+            const invalidParameter = 'No object'
+            await userDatabase.insertUser(invalidParameter)
         } catch (error) {
             assert(error.message === 'The parameter to the insertUser function must be an JSON object')
         }
@@ -107,7 +107,7 @@ describe('Service | user', () => {
 
     it('getUserById | Incorrect parameter | Must return an error because the parameter type is not string', async () => {
         try {
-            await userDatabase.getUserbyId(1)
+            await userDatabase.getUserById(1)
         } catch (error) {
             assert(error.message === 'The parameter for the getUserById function must be an string')
         }
