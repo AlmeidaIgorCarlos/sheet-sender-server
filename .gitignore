@@ -2,4 +2,5 @@
 /.vscode
 /.idea
 /.env
-docs/src/
+/docs
+/build/
