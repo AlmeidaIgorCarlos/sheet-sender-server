@@ -4,7 +4,7 @@
   "description": "Software para ajudar colaboradores a performar durante seu horário de expediente",
   "main": "app.js",
   "scripts": {
-    "build": "npx babel src --out-dir build --presets=@babel/env --plugins @babel/plugin-transform-runtime",
+    "build": "./node_modules/.bin/babel src --out-dir build --presets=@babel/env --plugins @babel/plugin-transform-runtime",
     "start": "node build/app.js",
     "start-dev": "nodemon src/app.js",
     "test": "mocha src/test/unit-tests.js"
