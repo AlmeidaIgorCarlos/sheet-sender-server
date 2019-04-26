@@ -1,8 +1,8 @@
 {
-  "name": "backend",
+  "name": "sheet-sender-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Software para ajudar colaboradores a performar durante seu horário de expediente",
+  "main": "app.js",
   "scripts": {
     "build": "npx babel src --out-dir build --presets=@babel/env --plugins @babel/plugin-transform-runtime",
     "start": "node build/app.js",
@@ -19,17 +19,14 @@
     "dotenv-safe": "^6.1.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
-    "request": "^2.88.0"
-  },
-  "devDependencies": {
+    "request": "^2.88.0",
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "@babel/plugin-transform-runtime": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-env": "^7.4.3"
+  },
+  "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.1.2"
-  },
-  "engines":{
-    "node": "10.15.0"
   }
 }
