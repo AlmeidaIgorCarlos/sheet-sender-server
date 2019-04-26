@@ -5,22 +5,25 @@ const userDatabase = require('./../services/database/user')
 function getUser(user, approach) {
     return new Promise(async (resolve, reject) => {
         try {
-            if (approach) user = await userDatabase.getUser(body)
-            else user = await userDatabase.getUserbyId(body._id)
+            if (approach) user = await userDatabase.getUser(user)
+            else user = await userDatabase.getUserbyId(user._id)
 
             resolve(user)
         } catch (error) {
-            reject(new Error('Occured an error during the execution of getUser in sign-in route'))
+            console.log(error)
+            reject(new Error('Occured an error during the execution of getUser in sign-up route'))
         }
     })
 }
 
 function isUserSaved(user) {
     try {
-        if (user.docs.length === 0) return false
+        if(user === undefined) return false
+        else if (user.docs.length === 0) return false
         else return true
     } catch (error) {
-        throw new Error('Occured an error during the execution of isUserSaved in sign-in route')
+        console.log(error)
+        throw new Error('Occured an error during the execution of isUserSaved in sign-up route')
     }
 }
 
@@ -37,6 +40,7 @@ module.exports = function (app) {
             }
 
         } catch (error) {
+            console.log(error)
             res.status(500).send({ message: error.message })
         } finally {
             res.end()
@@ -55,6 +59,7 @@ module.exports = function (app) {
             }
             else throw new Error('The informed user is not registered in the application')
         } catch (error) {
+            console.log(error)
             res.status(500).send({message: error})
         } finally {
             res.end()

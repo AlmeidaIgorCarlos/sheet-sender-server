@@ -14,6 +14,7 @@ module.exports = function (app) {
                 throw new Error({message: 'User not authenticated'})
 
         } catch (error) {
+            console.log(error)
             res.status(500).send({message: error.message})
         } finally {
             res.end()
@@ -32,6 +33,7 @@ module.exports = function (app) {
                 throw new Error({message: 'User not authenticated'})
 
         } catch (error) {
+            console.log(error)
             res.status(500).send({message: error.message})
         } finally {
             res.end()
@@ -49,6 +51,7 @@ module.exports = function (app) {
             else
                 throw new Error({message: 'User not authenticated'})
         } catch (error) {
+            console.log(error)
             res.status(500).send({message: error.message})
         } finally {
             res.end()

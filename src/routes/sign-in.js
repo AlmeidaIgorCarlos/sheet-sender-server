@@ -17,6 +17,7 @@ module.exports = function (app) {
 
             res.status(200).send(user)
         } catch (error) {
+            console.log(error)
             res.status(500).send({message: error.message})
         } finally {
             res.end()
