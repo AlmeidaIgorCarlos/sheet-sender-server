@@ -29,10 +29,10 @@ module.exports = {
             }
         })
     },
-    getWorkItem(_user) {
+    getWorkItem(workItemUser) {
         return new Promise((resolve, reject) => {
             try {
-                if (typeof _user !== 'object')
+                if (typeof workItemUser !== 'object')
                     reject(new Error('The parameter for the getWorkItem must be an object'))
                 const requestData = {
                     method: 'POST',
@@ -40,7 +40,7 @@ module.exports = {
                     body: {
                         selector: {
                             entity: 'workitem',
-                            user: _user
+                            user: workItemUser
                         }
                     },
                     json: true
