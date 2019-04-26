@@ -24,8 +24,8 @@ Constantemente queremos performar mais durante nosso expediente no dia-a-dia de 
 10. O usuário poderá pesquisar por relatório de expedientes já realizados;
 
 **Arquitetura da aplicação:**
-<img src="https://github.com/AlmeidaIgorCarlos/sheet-sender-server/blob/master/docs/SheetSender%20-%20Arquitetura.JPG" alt="Imagem da arquitetura da aplicação" />
+![Alt text](docs/SheetSender%20-%20Arquitetura.JPG)
 <br>
 
 **Workflow do Usuário:**
-<img src="https://github.com/AlmeidaIgorCarlos/SheetSender/blob/master/docs/Workflow%20do%20Usu%C3%A1rio.png" />
+![Alt text](docs/Workflow%20do%20Usuário.png)
