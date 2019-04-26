@@ -1,5 +1,6 @@
-const app = require('express')()
 require('dotenv-safe').config()
+
+const app = require('express')()
 const consign = require('consign')
 
 consign()
@@ -7,4 +8,4 @@ consign()
     .then('./src/routes/')
     .into(app)
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT) 
