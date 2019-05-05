@@ -1,6 +1,7 @@
 const express = require('express')
 const route = express.Router()
 const userDatabase = require('./../services/database/user')
+const errors = require('./../services/personalized-errors')
 
 function getUser(user, approach) {
     return new Promise(async (resolve, reject) => {
@@ -11,14 +12,16 @@ function getUser(user, approach) {
             resolve(user)
         } catch (error) {
             console.log(error)
-            reject(new Error('Occured an error during the execution of getUser in sign-up route'))
+            reject(error)
         }
     })
 }
 
 function isUserSaved(user) {
     try {
-        if(user === undefined) return false
+        console.log(typeof user.docs)
+        console.log((typeof user === undefined || typeof user.docs == undefined))
+        if (typeof user === undefined || typeof user.docs === undefined) return false
         else if (user.docs.length === 0) return false
         else return true
     } catch (error) {
@@ -33,15 +36,19 @@ module.exports = function (app) {
             let user = req.body
             user = await getUser(user, true)
 
-            if (isUserSaved(user)) throw new Error('The informed user is already registered in the application')
+            if (isUserSaved(user)) throw new errors.existentData('The informed user is already registered in the application')
             else {
                 if (await userDatabase.insertUser(req.body))
                     res.status(200).send({ message: 'User registered successfully' })
             }
 
         } catch (error) {
+            if (error instanceof errors.databaseError) res.status(500)
+            if (error instanceof errors.existentData) res.status(500)
+            else res.status(500)
+
             console.log(error)
-            res.status(500).send({ message: error.message })
+            res.send({ message: error.message })
         } finally {
             res.end()
             next()
@@ -51,16 +58,24 @@ module.exports = function (app) {
     route.put('/sign-up', async (req, res, next) => {
         try {
             let user = req.body
-            user = await getUser(user, false)
 
-            if(isUserSaved(user)){
-                if(await userDatabase.updateUser(user))
-                    res.status(200).send({message: 'User update successfully'})
+            if (await authenticator.authorize(user.authentication)) {
+                user = await getUser(user, false)
+
+                if (isUserSaved(user)) {
+                    if (await userDatabase.updateUser(user))
+                        res.status(200).send({ message: 'User update successfully' })
+                }
+                else throw new Error('The informed user is not registered in the application')
             }
-            else throw new Error('The informed user is not registered in the application')
+            else throw new errors.notAuthorized('User not authenticated')
+
         } catch (error) {
+            if (error instanceof errors.databaseError) res.status(500)
+            else res.status(500)
+
             console.log(error)
-            res.status(500).send({message: error})
+            res.send({ message: error })
         } finally {
             res.end()
             next()

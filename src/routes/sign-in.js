@@ -22,6 +22,7 @@ module.exports = function (app) {
             if(error instanceof errors.databaseError) res.status(500)
             else res.status(500)
             
+            console.log(error)
             res.send({message: error.message})
         } finally {
             res.end()
