@@ -1,4 +1,5 @@
 const request = require('request')
+const errors = require('./../personalized-errors')
 require('dotenv-safe').config()
 
 module.exports = {
@@ -20,12 +21,12 @@ module.exports = {
                     json: true
                 }
                 request(requestData, (error, res) => {
-                    if (error | res.statusCode != 201) reject(new Error('The database operation did not work'))
+                    if (error | res.statusCode != 201) reject(new errors.databaseError('The database operation did not work'))
                     else resolve(true)
                 })
 
             } catch (error) {
-                reject(new Error('Occurred an error during the execution of insertWorkItem function'))
+                reject(new errors.databaseError('Occurred an error during the execution of insertWorkItem function'))
             }
         })
     },
@@ -47,11 +48,11 @@ module.exports = {
                 }
 
                 request(requestData, (error, res, body) => {
-                    if (error | res.statusCode != 200) reject(new Error('The database operation did not work'))
+                    if (error | res.statusCode != 200) reject(new errors.databaseError('The database operation did not work'))
                     else resolve(body.docs)
                 })
             } catch (error) {
-                reject(new Error('Occurred an error during the execution of getWorkItem function'))
+                reject(new errors.databaseError('Occurred an error during the execution of getWorkItem function'))
             }
         })
     },
@@ -75,12 +76,12 @@ module.exports = {
                     }
 
                     request(requestData, (error, res) => {
-                        if (error | res.statusCode != 201) reject(new Error('the database operation did not work'))
+                        if (error | res.statusCode != 201) reject(new errors.databaseError('the database operation did not work'))
                         else resolve(true)
                     })
                 }
             } catch (error) {
-                reject(new Error('Occurred an error during the execution of updateWorkItem funcion'))
+                reject(new errors.databaseError('Occurred an error during the execution of updateWorkItem funcion'))
             }
 
         })

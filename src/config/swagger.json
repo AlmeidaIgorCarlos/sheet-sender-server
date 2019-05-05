@@ -1,0 +1,106 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Documentação da API sheet-sender-server",
+    "description": "Software para ajudar colaboradores a performar durante seu horário de expediente",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api-docs",
+  "tags": [
+    {
+      "name": "sign-in",
+      "description": "endpoint para autenticação"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/sign-in": {
+      "post": {
+        "tags": [
+          "sign-in"
+        ],
+        "description": "Autenticação de usuário",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Usuário cadastrado",
+            "schema": {
+              "$ref": "#/definitions/sign-in"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "As informações do usuário junto com seu token de autenticação são fornecidas",
+            "schema": {
+              "$ref": "#/definitions/sign-in-response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "sign-in": {
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "sign-in-response": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "_rev": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "entity": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "anthentication": {
+          "type": "object",
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

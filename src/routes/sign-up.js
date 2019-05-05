@@ -1,26 +1,32 @@
 const express = require('express')
 const route = express.Router()
 const userDatabase = require('./../services/database/user')
+const errors = require('./../services/personalized-errors')
 
 function getUser(user, approach) {
     return new Promise(async (resolve, reject) => {
         try {
-            if (approach) user = await userDatabase.getUser(body)
-            else user = await userDatabase.getUserbyId(body._id)
+            if (approach) user = await userDatabase.getUser(user)
+            else user = await userDatabase.getUserbyId(user._id)
 
             resolve(user)
         } catch (error) {
-            reject(new Error('Occured an error during the execution of getUser in sign-in route'))
+            console.log(error)
+            reject(error)
         }
     })
 }
 
 function isUserSaved(user) {
     try {
-        if (user.docs.length === 0) return false
+        console.log(typeof user.docs)
+        console.log((typeof user === undefined || typeof user.docs == undefined))
+        if (typeof user === undefined || typeof user.docs === undefined) return false
+        else if (user.docs.length === 0) return false
         else return true
     } catch (error) {
-        throw new Error('Occured an error during the execution of isUserSaved in sign-in route')
+        console.log(error)
+        throw new Error('Occured an error during the execution of isUserSaved in sign-up route')
     }
 }
 
@@ -30,14 +36,19 @@ module.exports = function (app) {
             let user = req.body
             user = await getUser(user, true)
 
-            if (isUserSaved(user)) throw new Error('The informed user is already registered in the application')
+            if (isUserSaved(user)) throw new errors.existentData('The informed user is already registered in the application')
             else {
                 if (await userDatabase.insertUser(req.body))
                     res.status(200).send({ message: 'User registered successfully' })
             }
 
         } catch (error) {
-            res.status(500).send({ message: error.message })
+            if (error instanceof errors.databaseError) res.status(500)
+            if (error instanceof errors.existentData) res.status(500)
+            else res.status(500)
+
+            console.log(error)
+            res.send({ message: error.message })
         } finally {
             res.end()
             next()
@@ -47,15 +58,24 @@ module.exports = function (app) {
     route.put('/sign-up', async (req, res, next) => {
         try {
             let user = req.body
-            user = await getUser(user, false)
 
-            if(isUserSaved(user)){
-                if(await userDatabase.updateUser(user))
-                    res.status(200).send({message: 'User update successfully'})
+            if (await authenticator.authorize(user.authentication)) {
+                user = await getUser(user, false)
+
+                if (isUserSaved(user)) {
+                    if (await userDatabase.updateUser(user))
+                        res.status(200).send({ message: 'User update successfully' })
+                }
+                else throw new Error('The informed user is not registered in the application')
             }
-            else throw new Error('The informed user is not registered in the application')
+            else throw new errors.notAuthorized('User not authenticated')
+
         } catch (error) {
-            res.status(500).send({message: error})
+            if (error instanceof errors.databaseError) res.status(500)
+            else res.status(500)
+
+            console.log(error)
+            res.send({ message: error })
         } finally {
             res.end()
             next()
