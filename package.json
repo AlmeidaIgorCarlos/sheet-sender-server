@@ -4,12 +4,7 @@
   "description": "Software para ajudar colaboradores a performar durante seu horário de expediente",
   "main": "app.js",
   "scripts": {
-<<<<<<< HEAD
-    "build": "./node_modules/.bin/babel src --out-dir build --presets=@babel/env --plugins @babel/plugin-transform-runtime",
-    "start": "node build/app.js",
-=======
     "start": "node src/app.js",
->>>>>>> master
     "start-dev": "nodemon src/app.js",
     "test": "mocha src/test/unit-tests.js"
   },
@@ -17,14 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-transform-runtime": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/runtime": "^7.4.3",
-=======
->>>>>>> master
     "body-parser": "^1.18.3",
     "consign": "^0.1.6",
     "cors": "^2.8.5",
@@ -33,13 +20,6 @@
     "jsonwebtoken": "^8.5.1",
     "request": "^2.88.0",
     "swagger-ui-express": "^4.0.2"
-<<<<<<< HEAD
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-transform-runtime": "^7.4.3",
-    "@babel/preset-env": "^7.4.3"
-=======
->>>>>>> master
   },
   "devDependencies": {
     "chai": "^4.2.0",

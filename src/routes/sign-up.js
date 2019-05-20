@@ -19,10 +19,7 @@ function getUser(user, approach) {
 
 function isUserSaved(user) {
     try {
-        console.log(typeof user.docs)
-        console.log((typeof user === undefined || typeof user.docs == undefined))
-        if (typeof user === undefined || typeof user.docs === undefined) return false
-        else if (user.docs.length === 0) return false
+        if (user == undefined) return false
         else return true
     } catch (error) {
         console.log(error)
@@ -44,7 +41,7 @@ module.exports = function (app) {
 
         } catch (error) {
             if (error instanceof errors.databaseError) res.status(500)
-            if (error instanceof errors.existentData) res.status(500)
+            if (error instanceof errors.existentData) res.status(200)
             else res.status(500)
 
             console.log(error)
