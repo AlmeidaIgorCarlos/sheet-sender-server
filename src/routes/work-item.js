@@ -7,10 +7,11 @@ const errors = require('./../services/personalized-errors')
 module.exports = function (app) {
     router.get('/work-item', async (req, res) => {
         try {
-            const user = req.body 
-            
-            if (await authenticator.authorize(user.authentication))
+            const user = JSON.parse(req.query.user)
+            if (await authenticator.authorize(user.authentication)){
+                delete user.authentication
                 res.status(200).send(await workItemDB.getWorkItem(user))
+            }
             else throw new errors.notAuthorized('User not authenticated')
 
         } catch (error) {
