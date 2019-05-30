@@ -42,7 +42,8 @@ module.exports = {
                         selector: {
                             entity: 'workitem',
                             user: workItemUser
-                        }
+                        },
+                        sort:[{date: 'asc'}]
                     },
                     json: true
                 }
