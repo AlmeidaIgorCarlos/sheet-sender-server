@@ -69,6 +69,7 @@ module.exports = function (app) {
 
         } catch (error) {
             if (error instanceof errors.databaseError) res.status(500)
+            else if(error instanceof errors.notAuthorized) res.status(401)
             else res.status(500)
 
             console.log(error)
